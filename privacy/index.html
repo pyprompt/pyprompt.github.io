@@ -10,7 +10,7 @@
 <body>
 <main>
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated 2 August 2026</p>
+  <p class="updated">Last updated 18 August 2026</p>
 
   <p>
     <strong>PyPrompt does not collect any data.</strong> There are no analytics,
@@ -20,8 +20,10 @@
 
   <h2>Where your data lives</h2>
 
-  <p><strong>On your device.</strong> Python scripts run entirely on your device.
-  What you write and run stays there.</p>
+  <p><strong>On your device.</strong> Python scripts execute entirely on your
+  device. Your source code, session history, and results remain on your device or
+  in your private iCloud storage unless code you choose to run sends information
+  through a network request or connection.</p>
 
   <p><strong>In your iCloud account.</strong> Session history and app data sync
   between your own devices through iCloud, using your private iCloud database.
@@ -45,16 +47,28 @@
   same network can connect to a session you are hosting. Use this feature on
   networks you trust.</p>
 
-  <p><strong>Scripts you run can send data themselves.</strong> Python code you
-  write can send data over connections it opens, such as a peer-to-peer session
-  you have established. Anything that leaves your device that way is directed by
-  you, not by the developer.</p>
+  <p><strong>Scripts you run can communicate with external services.</strong>
+  Python code can make HTTP or HTTPS requests and open other supported
+  connections. Any information included in a request is sent directly from your
+  device to the destination specified by the code. The developer of PyPrompt does
+  not receive, store, or process these requests or their responses.</p>
+
+  <p>Built-in examples do not make network requests until you choose to run them.
+  Any external service contacted by a script or example may receive standard
+  network information, such as your IP address and request headers, and may
+  process that information according to its own privacy practices.</p>
 
   <h2>Third parties</h2>
   <p>
-    PyPrompt does not share data with third parties, because it does not collect
-    any. iCloud and iCloud Keychain are provided by Apple and governed by
+    PyPrompt does not send information to the developer, analytics providers,
+    advertising services, or tracking services. iCloud and iCloud Keychain are
+    provided by Apple and governed by
     <a href="https://www.apple.com/legal/privacy/">Apple's Privacy Policy</a>.
+  </p>
+  <p>
+    When code you run connects to an external service, that service receives the
+    information included in the request. Its own terms and privacy policy apply.
+    PyPrompt does not control, inspect, or retain that communication.
   </p>
 
   <h2>Changes</h2>
