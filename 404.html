@@ -9,20 +9,6 @@
 </head>
 <body>
 <main>
-  <div id="shared" hidden>
-    <h1>Open this session in PyPrompt</h1>
-    <p class="tagline">Shared PyPrompt session</p>
-    <p>
-      If PyPrompt is installed, this link opens the session directly. If nothing
-      happened, open it in the app:
-    </p>
-    <p><a class="contact" id="app-link" href="#">Open in PyPrompt</a></p>
-    <p>
-      Don't have PyPrompt? It's a Python console for iPhone and iPad. Install it,
-      then open this link again.
-    </p>
-  </div>
-
   <div id="missing" hidden>
     <h1>Page not found</h1>
     <p class="tagline">That page doesn't exist.</p>
@@ -41,19 +27,18 @@
 </main>
 
 <script>
-  // A shared session lives at /shared/<id>. GitHub Pages has no rewrite rules,
-  // so that path falls through to this page whenever the app did not claim the
-  // link — either it is not installed, or this is a desktop browser.
+  // A shared session lives at /shared/<id>, which is not a real file — Pages has
+  // no rewrite rules, so the request lands here whenever the app did not claim
+  // the link. Hand it to /shared/, which is a real page and answers 200, rather
+  // than showing session content under a 404. replace() keeps the dead URL out
+  // of history so Back returns where the visitor came from.
   (function () {
     var match = location.pathname.match(/^\/shared\/([^/?#]+)\/?$/);
     if (match) {
-      var id = decodeURIComponent(match[1]);
-      document.getElementById("app-link").href =
-        "pyprompt://shared/" + encodeURIComponent(id);
-      document.getElementById("shared").hidden = false;
-    } else {
-      document.getElementById("missing").hidden = false;
+      location.replace("/shared/?id=" + encodeURIComponent(decodeURIComponent(match[1])));
+      return;
     }
+    document.getElementById("missing").hidden = false;
   })();
 </script>
 </body>

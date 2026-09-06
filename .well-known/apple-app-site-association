@@ -6,7 +6,12 @@
         "components": [
           {
             "/": "/shared/*",
-            "comment": "Shared PyPrompt sessions open in the app"
+            "comment": "Shared session, as /shared/<id>"
+          },
+          {
+            "/": "/shared/",
+            "?": { "id": "*" },
+            "comment": "Shared session, as /shared/?id=<id>"
           }
         ]
       }

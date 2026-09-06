@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PyPrompt — Shared Session</title>
+<meta name="description" content="Open a shared PyPrompt session.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <div id="session" hidden>
+    <h1>Open this session in PyPrompt</h1>
+    <p class="tagline">Someone shared a Python session with you.</p>
+
+    <p>
+      If PyPrompt is installed, the link normally opens the app straight away.
+      If you are still here, open it manually:
+    </p>
+
+    <p><a class="contact" id="app-link" href="#">Open in PyPrompt</a></p>
+
+    <h2>Don't have PyPrompt?</h2>
+    <p>
+      PyPrompt is a Python console for iPhone and iPad. Install it, then open the
+      link again and the session will load.
+    </p>
+    <p>
+      Shared sessions open on any device with the app. This page itself cannot
+      run the session — it only hands the link to PyPrompt.
+    </p>
+  </div>
+
+  <div id="no-session" hidden>
+    <h1>Shared sessions</h1>
+    <p class="tagline">A Python console for iPhone and iPad.</p>
+    <p>
+      PyPrompt sessions can be shared as a link. Opening one on a device with
+      PyPrompt installed loads the session into the app.
+    </p>
+    <p>
+      This page needs a session link to open. If you followed one and landed
+      here, the link may be incomplete.
+    </p>
+  </div>
+
+  <footer>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy Policy</a>
+    </nav>
+    <p>© 2026 Tibor Felföldy</p>
+  </footer>
+</main>
+
+<script>
+  // The session id arrives either as /shared/?id=<id> or rewritten here by
+  // 404.html, which catches the prettier /shared/<id> form that Pages cannot
+  // serve directly.
+  (function () {
+    var id = new URLSearchParams(location.search).get("id");
+    if (id) {
+      document.getElementById("app-link").href =
+        "pyprompt://shared/" + encodeURIComponent(id);
+      document.getElementById("session").hidden = false;
+    } else {
+      document.getElementById("no-session").hidden = false;
+    }
+  })();
+</script>
+</body>
+</html>
