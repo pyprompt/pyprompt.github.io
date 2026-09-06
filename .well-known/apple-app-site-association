@@ -16,5 +16,8 @@
         ]
       }
     ]
+  },
+  "appclips": {
+    "apps": ["QA23EPZ5C9.com.felfoldy.pyprompt.Clip"]
   }
 }
