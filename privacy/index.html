@@ -34,9 +34,17 @@
   <code>icloud</code> module saves data models to a public database in the app's
   iCloud container. Saving a model returns a record ID, and anyone with that ID
   can fetch the record, so this data is public. Saving requires your own iCloud
-  account, and only the account that saved a record can change or delete it.
-  Nothing is written there unless a script you run explicitly saves it. The
-  developer does not read, monitor, or use this data.</p>
+  account; fetching does not. Only the account that saved a record can change or
+  delete it. Nothing is written there unless a script you run explicitly saves
+  it. The developer does not read, monitor, or use this data.</p>
+
+  <p><strong>Shared sessions.</strong> When you share a session as a link, its
+  content is saved to that same public database. The link carries the record ID,
+  so anyone holding the link can open the session, and no iCloud account is
+  needed to do so. The session stays there until you remove it: changes you make
+  afterwards reach everyone holding the link, and removing it makes the link stop
+  working. A link is unlisted and is distributed only by you. There is no way for
+  anyone to browse or discover shared sessions.</p>
 
   <p><strong>In your keychain.</strong> Anything you choose to save through
   PyPrompt's keychain access, such as an API key, is stored in the system
@@ -68,8 +76,8 @@
 
   <h2>Third parties</h2>
   <p>
-    PyPrompt does not send information to the developer, analytics providers,
-    advertising services, or tracking services. iCloud and iCloud Keychain are
+    PyPrompt does not send information to analytics providers, advertising
+    services, or tracking services. iCloud and iCloud Keychain are
     provided by Apple and governed by
     <a href="https://www.apple.com/legal/privacy/">Apple's Privacy Policy</a>.
   </p>
