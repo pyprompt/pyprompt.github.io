@@ -13,9 +13,10 @@
   <p class="updated">Last updated 18 August 2026</p>
 
   <p>
-    <strong>PyPrompt does not collect any data.</strong> There are no analytics,
-    no tracking, no advertising, and no crash reporting. There is no account to
-    create, and no server operated by the developer that your device talks to.
+    PyPrompt has no analytics, tracking, advertising, or crash reporting. There
+    is no account to create. The only data that leaves your device is data you
+    explicitly choose to send: a session you share, a model your script saves, or
+    a network request your code makes.
   </p>
 
   <h2>Where your data lives</h2>
@@ -25,10 +26,17 @@
   in your private iCloud storage unless code you choose to run sends information
   through a network request or connection.</p>
 
-  <p><strong>In your iCloud account.</strong> Session history and app data sync
-  between your own devices through iCloud, using your private iCloud database.
-  This is your personal iCloud storage — the developer has no access to it and
-  cannot read what it contains.</p>
+  <p><strong>In your private iCloud storage.</strong> Session history and app
+  data sync between your own devices through your private iCloud database. The
+  developer has no access to it and cannot read what it contains.</p>
+
+  <p><strong>In the app's public iCloud database.</strong> The
+  <code>icloud</code> module saves data models to a public database in the app's
+  iCloud container. Saving a model returns a record ID, and anyone with that ID
+  can fetch the record, so this data is public. Saving requires your own iCloud
+  account, and only the account that saved a record can change or delete it.
+  Nothing is written there unless a script you run explicitly saves it. The
+  developer does not read, monitor, or use this data.</p>
 
   <p><strong>In your keychain.</strong> Anything you choose to save through
   PyPrompt's keychain access, such as an API key, is stored in the system

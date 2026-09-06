@@ -65,6 +65,11 @@ li {
   margin-bottom: 0.4rem;
 }
 
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
 .tagline {
   color: var(--muted);
   margin-bottom: 2rem;
