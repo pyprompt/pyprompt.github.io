@@ -1,0 +1,11 @@
+# GitHub Pages runs Jekyll, which drops files and folders beginning with a dot
+# from the built site. The Apple App Site Association file has to be reachable at
+# /.well-known/apple-app-site-association for Universal Links to work, so that
+# folder is explicitly included.
+include:
+  - .well-known
+
+# Keep repository tooling out of the published site.
+exclude:
+  - .claude
+  - README.md

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PyPrompt</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <div id="shared" hidden>
+    <h1>Open this session in PyPrompt</h1>
+    <p class="tagline">Shared PyPrompt session</p>
+    <p>
+      If PyPrompt is installed, this link opens the session directly. If nothing
+      happened, open it in the app:
+    </p>
+    <p><a class="contact" id="app-link" href="#">Open in PyPrompt</a></p>
+    <p>
+      Don't have PyPrompt? It's a Python console for iPhone and iPad. Install it,
+      then open this link again.
+    </p>
+  </div>
+
+  <div id="missing" hidden>
+    <h1>Page not found</h1>
+    <p class="tagline">That page doesn't exist.</p>
+    <p>Try the <a href="/">home page</a>, <a href="/support/">support</a>, or the
+    <a href="/privacy/">privacy policy</a>.</p>
+  </div>
+
+  <footer>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy Policy</a>
+    </nav>
+    <p>© 2026 Tibor Felföldy</p>
+  </footer>
+</main>
+
+<script>
+  // A shared session lives at /shared/<id>. GitHub Pages has no rewrite rules,
+  // so that path falls through to this page whenever the app did not claim the
+  // link — either it is not installed, or this is a desktop browser.
+  (function () {
+    var match = location.pathname.match(/^\/shared\/([^/?#]+)\/?$/);
+    if (match) {
+      var id = decodeURIComponent(match[1]);
+      document.getElementById("app-link").href =
+        "pyprompt://shared/" + encodeURIComponent(id);
+      document.getElementById("shared").hidden = false;
+    } else {
+      document.getElementById("missing").hidden = false;
+    }
+  })();
+</script>
+</body>
+</html>

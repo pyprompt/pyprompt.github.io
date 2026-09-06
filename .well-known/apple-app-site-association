@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["QA23EPZ5C9.com.felfoldy.pyprompt"],
+        "components": [
+          {
+            "/": "/shared/*",
+            "comment": "Shared PyPrompt sessions open in the app"
+          }
+        ]
+      }
+    ]
+  }
+}
