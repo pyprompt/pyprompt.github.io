@@ -77,6 +77,16 @@ version. Entitlements and `Info.plist` tell you what the app is *provisioned*
 for, which is not the same as what it *uses* — a container can sit dormant for
 releases before a feature lands on it.
 
+**Read the release tag, not a branch tip.** Work lands on `develop`, and `main`
+can trail it by several versions, so the newest changelog entry on `main` is not
+the release. Each shipped version is tagged `pyprompt-X.Y.Z` in the app repo, and
+`swiftpy-llm` carries matching tags. Feature flags in
+`PyPrompt/FeatureFlags.swift` decide what a build actually exposes and can differ
+between branches: reading them off `main` once removed a shipping feature from
+the policy. Fetch the tag (`git fetch --depth=1 origin tag pyprompt-X.Y.Z`) and
+read flags, entitlements, and the changelog from it. If the user names a version
+with no tag, say so instead of picking the nearest branch.
+
 The dependency repos (`SwiftPy`, `swiftpy-console`, `SwiftPyICloud`, and friends)
 are usually **not on disk** in a fresh session; they're fetched as siblings by
 `Scripts/bootstrap-dependencies.sh`. Nearly every interesting data path lives in
