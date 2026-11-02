@@ -98,6 +98,23 @@ code {
   margin-top: 0.6rem;
 }
 
+/* Home page feature list: each heading sits close to its own paragraph, with
+   the space between entries coming from the grid gap rather than margins. */
+.features {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+.features h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+}
+
+.features p {
+  margin: 0;
+}
+
 .tagline {
   color: var(--muted);
   margin-bottom: 2rem;
