@@ -92,6 +92,25 @@ code {
   outline-offset: 3px;
 }
 
+.store-badge {
+  display: inline-block;
+  /* Apple's badge artwork, used as supplied: at least 40px tall on screen, with
+     clear space of a quarter of its height that nothing else may enter. */
+  margin: 12px 0;
+  border-radius: 8px;
+  line-height: 0;
+}
+
+.store-badge img {
+  height: 48px;
+  width: auto;
+}
+
+.store-badge:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .button-note {
   color: var(--muted);
   font-size: 0.85rem;

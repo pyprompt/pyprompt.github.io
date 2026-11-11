@@ -195,6 +195,21 @@
   height: auto;
 }
 
+.store-badge-mac,
+.p-mac .store-badge-ios {
+  display: none;
+}
+
+.p-mac .store-badge-mac {
+  display: inline-block;
+}
+
+/* The badge's own clear space replaces the row's usual gap above an action. */
+.way .way-action:has(.store-badge) {
+  margin-top: calc(0.85rem - 12px);
+  margin-bottom: -12px;
+}
+
 .button-quiet {
   border: 1.5px solid currentColor;
   background: transparent;

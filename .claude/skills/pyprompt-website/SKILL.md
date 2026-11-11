@@ -57,6 +57,15 @@ package, unchanged), with images in `assets/`.
   change, ask for a check on a phone without the app: the card appears, its
   button opens that notebook, Messages shows the preview image.
 
+## App Store links
+
+Link to the App Store with Apple's badge, never a home-made button: the files in
+`assets/badge-*.svg` are Apple's artwork, unedited (black, US-UK English). Show
+them at least 40px tall (the site uses 48px) with a quarter of the height clear
+around them, and don't stretch, recolour or restyle them. Replacements come from
+developer.apple.com (the marketing guidelines page links the SVGs); the
+`tools.applemarketingtools.com` badge host is blocked from remote sessions.
+
 ## Before publishing a privacy policy change
 
 **Bump the `Last updated` line, and get the date from `date`.** A policy whose
