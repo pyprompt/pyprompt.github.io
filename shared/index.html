@@ -3,6 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // First thing on the page, before Safari reads the App Clip tag below: put the
+  // link back into the form the app makes, /shared/<id>. The App Clip is handed
+  // this page's address, and that form is the one every released version of the
+  // app and the clip opens. The id arrives as /shared/?id=<id> because 404.html
+  // rewrites the app's links, which Pages cannot serve directly.
+  var PyPromptSharedId = new URLSearchParams(location.search).get("id");
+  if (PyPromptSharedId) {
+    try {
+      history.replaceState(null, "", "/shared/" + encodeURIComponent(PyPromptSharedId));
+    } catch (e) {}
+  }
+</script>
 <title>Shared notebook — PyPrompt</title>
 <meta name="description" content="Someone shared a Python notebook with you. Open it in PyPrompt to read it, change it and run it.">
 <meta name="robots" content="noindex">
@@ -21,21 +34,16 @@
 <link rel="stylesheet" href="/shared/shared.css">
 <script>
   // Runs before the page paints, so the right options are there from the start.
-  // The notebook id arrives as /shared/?id=<id>; 404.html rewrites the
-  // /shared/<id> form the app generates, which Pages cannot serve directly.
   var PyPromptShared = (function () {
     var root = document.documentElement;
-    var id = new URLSearchParams(location.search).get("id");
+    var id = PyPromptSharedId;
     root.classList.add("js");
     if (!id) {
       root.classList.add("no-id");
       return { id: null };
     }
 
-    // Put the app's own link form back in the address bar, so sharing this page
-    // from the browser passes on the link the app made.
     var path = "/shared/" + encodeURIComponent(id);
-    try { history.replaceState(null, "", path); } catch (e) {}
 
     var ua = navigator.userAgent;
     // iPadOS reports itself as a Mac; a Mac has no multi-touch screen.

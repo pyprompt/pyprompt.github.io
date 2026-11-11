@@ -48,6 +48,9 @@ package, unchanged), with images in `assets/`.
 - App Clips open only from Safari on iPhone and iPad. The page shows other
   browsers a copy-the-link step, and desktops a QR code, which the camera turns
   into the full card.
+- The clip is handed the page's address, and `/shared/<id>` is the form released
+  versions are known to open. The page restores that form in its first script, above the
+  `apple-itunes-app` tag; keep it there.
 - The notebook picture is drawn in CSS and is not the shared notebook. Keep it
   that way: screenshots go stale with the app's design.
 - None of the App Clip behaviour can be seen from a remote session. After a
