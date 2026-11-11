@@ -32,6 +32,28 @@ layout is invisible from the source:
   "file:///home/user/pyprompt.github.io/privacy/index.html"
 ```
 
+## The shared-notebook page
+
+`shared/index.html` is where a shared link lands when the app isn't installed. Its
+own files are `shared/shared.css` and `shared/qrcode.js` (the MIT `qrcode-generator`
+package, unchanged), with images in `assets/`.
+
+- The app's links are `/shared/<id>`, which is not a file: `404.html` answers them
+  and redirects to `/shared/?id=<id>`. So `404.html` carries the same link-preview
+  tags, and every edit to one page's `<head>` needs a look at the other.
+- `app-clip-display=card` in the `apple-itunes-app` tag makes Safari open the App
+  Clip card by itself on iPhone and iPad. A page cannot open the card from a
+  button, and a visitor who dismisses it gets the banner from then on, so the page
+  below must stand on its own.
+- App Clips open only from Safari on iPhone and iPad. The page shows other
+  browsers a copy-the-link step, and desktops a QR code, which the camera turns
+  into the full card.
+- The notebook picture is drawn in CSS and is not the shared notebook. Keep it
+  that way: screenshots go stale with the app's design.
+- None of the App Clip behaviour can be seen from a remote session. After a
+  change, ask for a check on a phone without the app: the card appears, its
+  button opens that notebook, Messages shows the preview image.
+
 ## Before publishing a privacy policy change
 
 **Bump the `Last updated` line, and get the date from `date`.** A policy whose

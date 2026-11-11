@@ -3,53 +3,167 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PyPrompt — Shared Notebook</title>
-<meta name="description" content="Open a shared PyPrompt notebook.">
+<title>Shared notebook — PyPrompt</title>
+<meta name="description" content="Someone shared a Python notebook with you. Open it in PyPrompt to read it, change it and run it.">
 <meta name="robots" content="noindex">
-<!-- Offers the App Clip card in Safari, and the full app to anyone without it. -->
-<meta name="apple-itunes-app" content="app-id=6780550972, app-clip-bundle-id=com.felfoldy.pyprompt.Clip">
+<!-- On iPhone and iPad, Safari opens the App Clip card over this page by itself
+     (app-clip-display=card). If the visitor dismisses it, Safari shows the smaller
+     banner instead, which is what the page's first option points at. -->
+<meta name="apple-itunes-app" content="app-id=6780550972, app-clip-bundle-id=com.felfoldy.pyprompt.Clip, app-clip-display=card">
+<!-- Messages builds its link preview, and offers the App Clip, from these. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="A Python notebook, shared with you">
+<meta property="og:description" content="Open it in PyPrompt to read it, change it and run it.">
+<meta property="og:image" content="https://pyprompt.github.io/assets/share-preview.png">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/shared/shared.css">
+<script>
+  // Runs before the page paints, so the right options are there from the start.
+  // The notebook id arrives as /shared/?id=<id>; 404.html rewrites the
+  // /shared/<id> form the app generates, which Pages cannot serve directly.
+  var PyPromptShared = (function () {
+    var root = document.documentElement;
+    var id = new URLSearchParams(location.search).get("id");
+    root.classList.add("js");
+    if (!id) {
+      root.classList.add("no-id");
+      return { id: null };
+    }
+
+    // Put the app's own link form back in the address bar, so sharing this page
+    // from the browser passes on the link the app made.
+    var path = "/shared/" + encodeURIComponent(id);
+    try { history.replaceState(null, "", path); } catch (e) {}
+
+    var ua = navigator.userAgent;
+    // iPadOS reports itself as a Mac; a Mac has no multi-touch screen.
+    var isIOS = /iPhone|iPad|iPod/.test(ua) ||
+      (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var platform;
+    if (isIOS) {
+      // App Clips open from Safari and Safari-based sheets only. Other browsers
+      // and in-app web views either name themselves or lack Safari's tokens.
+      var isSafari = /Version\/[\d.]+.*Safari\//.test(ua) &&
+        !/CriOS|FxiOS|EdgiOS|OPiOS|OPT\/|GSA\/|DuckDuckGo|YaBrowser/.test(ua);
+      platform = isSafari ? "ios-safari" : "ios-other";
+    } else if (/Macintosh/.test(ua)) {
+      platform = "mac";
+    } else {
+      platform = "other";
+    }
+    root.classList.add("p-" + platform);
+
+    return { id: id, platform: platform, link: "https://pyprompt.github.io" + path };
+  })();
+</script>
 </head>
 <body>
-<main>
-  <div id="session" hidden>
-    <h1>Open this notebook in PyPrompt</h1>
-    <p class="tagline">Someone shared a Python notebook with you.</p>
+<main class="shared">
+  <a class="brand" href="/">
+    <img src="/assets/icon.svg" alt="" width="30" height="31">
+    <span>PyPrompt</span>
+  </a>
 
-    <p>
-      If PyPrompt is installed, the link normally opens the app straight away.
-      If you are still here, open it manually:
-    </p>
-
-    <p><a class="contact" id="app-link" href="#">Open in PyPrompt</a></p>
-
-    <h2>Don't have PyPrompt?</h2>
-    <p>
-      PyPrompt is a Python app for iPhone, iPad, Mac and Apple Vision Pro. Install it, then open the
-      link again and the notebook will load.
-    </p>
-    <p>
-      <a class="button" href="https://apps.apple.com/app/id6780550972">
-        Download on the App Store</a>
-    </p>
-    <p class="button-note">
-      This page cannot run the notebook itself — it only hands the link to
-      PyPrompt.
-    </p>
+  <div class="when-id">
+    <h1>A Python notebook, shared with you</h1>
+    <p class="tagline">Read the code, change it, and run it when you choose.</p>
   </div>
-
-  <div id="no-session" hidden>
+  <div class="when-no-id">
     <h1>Shared notebooks</h1>
-    <p class="tagline">Learn Python by writing it.</p>
-    <p>
-      PyPrompt notebooks can be shared as a link. Opening one on a device with
-      PyPrompt installed loads the notebook into the app.
-    </p>
-    <p>
-      This page needs a notebook link to open. If you followed one and landed
-      here, the link may be incomplete.
-    </p>
+    <p class="tagline">This link is missing its notebook. If someone sent it to
+    you, ask them to share it again.</p>
   </div>
+
+  <!-- A picture of how a notebook looks, not the shared one: the page cannot
+       read notebooks. Built in CSS so it never falls behind the app's design. -->
+  <figure class="notebook">
+    <div class="nb" aria-hidden="true">
+      <div class="nb-card">
+        <div class="nb-code">
+          <span class="nb-ln">1</span><span>names = [<i class="s">"Ada"</i>, <i class="s">"Guido"</i>]</span>
+          <span class="nb-ln">2</span><span><i class="k">for</i> name <i class="k">in</i> names:</span>
+          <span class="nb-ln">3</span><span>    <i class="f">print</i>(<i class="s">f"Hello, {name}!"</i>)</span>
+        </div>
+        <div class="nb-status">
+          <svg viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M5 8.2l2 2 4-4.2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>0,84 ms</span>
+          <span class="nb-run"><svg viewBox="0 0 16 16" width="12" height="12"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg></span>
+        </div>
+        <div class="nb-out"><span>Hello, Ada!
+Hello, Guido!</span></div>
+      </div>
+    </div>
+    <figcaption>How a notebook looks in PyPrompt.</figcaption>
+  </figure>
+
+  <section class="ways" aria-label="Ways to open the notebook">
+
+    <!-- iPhone and iPad, in Safari -->
+    <div class="way" data-for="ios-safari">
+      <span class="way-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 19V5m0 0l-6 6m6-6l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <h2>Try it now, no install</h2>
+        <p>Use the PyPrompt banner at the top of this page. The notebook opens
+        in an App Clip, a small part of the app that needs no download from the
+        App Store.</p>
+      </div>
+    </div>
+
+    <!-- iPhone and iPad, in another browser or inside another app -->
+    <div class="way" data-for="ios-other">
+      <span class="way-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <h2>Try it without installing</h2>
+        <p>That works in Safari. Copy the link, then open it there.</p>
+        <p class="way-action">
+          <button class="button button-quiet" id="copy-link" type="button">Copy link</button>
+          <span id="copy-status" role="status"></span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Mac and everything else: hand the link to a phone -->
+    <div class="way way-qr" data-for="mac other">
+      <div class="qr" id="qr" role="img" aria-label="QR code for this notebook's link"></div>
+      <div>
+        <h2>Try it on your iPhone or iPad</h2>
+        <p>Point the camera at this code. The notebook opens straight away, with
+        nothing to install.</p>
+      </div>
+    </div>
+
+    <div class="way">
+      <span class="way-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 4v11m0 0l-5-5m5 5l5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <h2>Get PyPrompt</h2>
+        <p>Python for iPhone, iPad, Mac and Apple Vision Pro, with courses,
+        practice and notebooks of your own.
+        <span class="when-id">Install it, then open the link again.</span></p>
+        <p class="way-action">
+          <a class="button" href="https://apps.apple.com/app/id6780550972">Download on the App Store</a>
+        </p>
+      </div>
+    </div>
+
+    <p class="installed">Already have PyPrompt?
+      <a id="app-link" href="pyprompt://shared">Open this notebook in the app</a>.</p>
+  </section>
+
+  <ul class="assurances">
+    <li><strong>Nothing runs by itself.</strong> A shared notebook opens as cards
+    you can read. Code runs only when you tap Run.</li>
+    <li><strong>See it first.</strong> Every line is visible, and you can edit it
+    before you run it.</li>
+    <li><strong>No account.</strong> There is nothing to sign up for.</li>
+  </ul>
 
   <footer>
     <nav>
@@ -62,17 +176,42 @@
 </main>
 
 <script>
-  // The session id arrives either as /shared/?id=<id> or rewritten here by
-  // 404.html, which catches the prettier /shared/<id> form that Pages cannot
-  // serve directly.
   (function () {
-    var id = new URLSearchParams(location.search).get("id");
-    if (id) {
-      document.getElementById("app-link").href =
-        "pyprompt://shared/" + encodeURIComponent(id);
-      document.getElementById("session").hidden = false;
-    } else {
-      document.getElementById("no-session").hidden = false;
+    var shared = PyPromptShared;
+    if (!shared.id) return;
+
+    document.getElementById("app-link").href =
+      "pyprompt://shared/" + encodeURIComponent(shared.id);
+
+    if (shared.platform === "ios-other") {
+      var status = document.getElementById("copy-status");
+      document.getElementById("copy-link").addEventListener("click", function () {
+        var done = function () { status.textContent = "Copied. Now open Safari and paste it."; };
+        var failed = function () { status.textContent = shared.link; };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(shared.link).then(done, failed);
+        } else {
+          failed();
+        }
+      });
+    }
+
+    // The QR code is drawn here in the browser; the link is not sent anywhere.
+    // Only desktops and non-Apple devices need it, so phones skip the download.
+    if (shared.platform === "mac" || shared.platform === "other") {
+      var script = document.createElement("script");
+      script.src = "/shared/qrcode.js";
+      script.onload = function () {
+        var qr = qrcode(0, "M");
+        qr.addData(shared.link);
+        qr.make();
+        document.getElementById("qr").innerHTML =
+          qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+      };
+      script.onerror = function () {
+        document.querySelector(".way-qr").hidden = true;
+      };
+      document.head.appendChild(script);
     }
   })();
 </script>

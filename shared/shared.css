@@ -1,0 +1,283 @@
+/* The shared-notebook page. Loaded after /style.css and built on its tokens.
+
+   Which options show is decided by classes the page's head script puts on
+   <html>: "js", one platform ("p-ios-safari", "p-ios-other", "p-mac",
+   "p-other") and "no-id" when the link carries no notebook. With no script at
+   all, only the options that need nothing from it are shown. */
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 2.25rem;
+  color: var(--fg);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.shared h1 {
+  font-size: clamp(1.9rem, 7vw, 2.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.shared .tagline {
+  margin-bottom: 1.75rem;
+  font-size: 1.1rem;
+}
+
+.when-no-id,
+.no-id .when-id {
+  display: none;
+}
+
+.no-id .when-no-id {
+  display: block;
+}
+
+/* The notebook picture. It keeps the app's dark look in both themes. */
+
+.notebook {
+  margin: 0 0 2rem;
+}
+
+.nb {
+  padding: 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  background: #0b0b0d;
+}
+
+.nb-card {
+  overflow: hidden;
+  border-radius: 14px;
+  background: #1d1f25;
+  color: #e6e6ea;
+  font: 13.5px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.nb-code {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.8rem;
+  overflow: hidden;
+  padding: 0.8rem 0.9rem 0.45rem;
+  white-space: pre;
+}
+
+.nb-ln {
+  color: #5d6068;
+  text-align: right;
+}
+
+.nb-code i {
+  font-style: normal;
+}
+
+.nb-code .k { color: #ff7ab2; }
+.nb-code .s { color: #ff8170; }
+.nb-code .f { color: #b594f5; }
+
+.nb-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.15rem 0.9rem 0.6rem;
+  color: #8e9099;
+  font: 12.5px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.nb-run {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #2c2e36;
+  color: #ffd43b;
+}
+
+.nb-out {
+  padding: 0.65rem 0.9rem;
+  background: #172638;
+  white-space: pre;
+}
+
+.nb-out span {
+  display: block;
+  padding-left: 0.65rem;
+  border-left: 3px solid #0a84ff;
+}
+
+.notebook figcaption {
+  margin-top: 0.55rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* The ways to open the notebook: one panel, one row per way. */
+
+.ways {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+}
+
+.way {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  padding: 1.15rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* The App Store row is always the last row; what follows it is the one-line
+   "already installed" note, which draws its own rule when it is shown. */
+.way:last-of-type {
+  border-bottom: 0;
+}
+
+.way[data-for] {
+  display: none;
+}
+
+.p-ios-safari .way[data-for~="ios-safari"],
+.p-ios-other .way[data-for~="ios-other"],
+.p-mac .way[data-for~="mac"],
+.p-other .way[data-for~="other"] {
+  display: grid;
+}
+
+.way h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.way p {
+  margin: 0;
+}
+
+.way .way-action {
+  margin-top: 0.85rem;
+}
+
+.way-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+}
+
+/* The way that needs no install is the one to notice first. */
+.way[data-for] .way-icon {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.qr {
+  width: 116px;
+  padding: 8px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.button-quiet {
+  border: 1.5px solid currentColor;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#copy-status {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.installed {
+  display: none;
+  margin: 0;
+  padding: 0.85rem 1.15rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.p-ios-safari .installed,
+.p-ios-other .installed,
+.p-mac .installed {
+  display: block;
+}
+
+.assurances {
+  display: grid;
+  gap: 0.9rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assurances li {
+  position: relative;
+  margin: 0;
+  padding-left: 1.7rem;
+}
+
+.assurances li::before {
+  content: "";
+  position: absolute;
+  top: 0.45em;
+  left: 0.15rem;
+  width: 0.95rem;
+  height: 0.5rem;
+  border-bottom: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  transform: rotate(-45deg);
+  transform-origin: center;
+}
+
+/* On a phone the buttons span the row, so they are easy to hit, and the QR
+   code sits above its text. */
+@media (max-width: 30rem) {
+  .way {
+    gap: 0.8rem;
+  }
+
+  .way-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+
+  /* Pulled back under the icon, so the button gets the row's full width. */
+  .way .way-action {
+    margin-left: calc(-34px - 0.8rem);
+  }
+
+  .way-action .button {
+    display: block;
+    text-align: center;
+  }
+
+  .way-qr {
+    grid-template-columns: 1fr;
+  }
+}

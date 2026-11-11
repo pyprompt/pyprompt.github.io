@@ -5,16 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PyPrompt</title>
 <meta name="robots" content="noindex">
+<!-- A shared notebook's link, /shared/<id>, is answered by this file. Messages
+     and other link previewers read these tags without running the redirect
+     below, so they describe a shared notebook. The App Clip is offered as a
+     banner only, not the full card that /shared/ opens: this file also answers
+     for pages that really are missing, and a card over those would be wrong. -->
+<meta name="apple-itunes-app" content="app-id=6780550972, app-clip-bundle-id=com.felfoldy.pyprompt.Clip">
+<meta property="og:type" content="website">
+<meta property="og:title" content="A Python notebook, shared with you">
+<meta property="og:description" content="Open it in PyPrompt to read it, change it and run it.">
+<meta property="og:image" content="https://pyprompt.github.io/assets/share-preview.png">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/style.css">
+<style>
+  /* While a shared link is being handed on, show nothing rather than a flash
+     of "Page not found". */
+  .redirecting body { visibility: hidden; }
+</style>
+<script>
+  // A shared notebook lives at /shared/<id>, which is not a real file — Pages has
+  // no rewrite rules, so the request lands here whenever the app did not claim
+  // the link. Hand it to /shared/, which is a real page and answers 200, rather
+  // than showing it under a 404. replace() keeps the dead URL out of history so
+  // Back returns where the visitor came from.
+  (function () {
+    var match = location.pathname.match(/^\/shared\/([^/?#]+)\/?$/);
+    if (match) {
+      document.documentElement.className = "redirecting";
+      location.replace("/shared/?id=" + encodeURIComponent(decodeURIComponent(match[1])));
+    }
+  })();
+</script>
 </head>
 <body>
 <main>
-  <div id="missing" hidden>
-    <h1>Page not found</h1>
-    <p class="tagline">That page doesn't exist.</p>
-    <p>Try the <a href="/">home page</a>, <a href="/support/">support</a>, or the
-    <a href="/privacy/">privacy policy</a>.</p>
-  </div>
+  <h1>Page not found</h1>
+  <p class="tagline">That page doesn't exist.</p>
+  <p>Try the <a href="/">home page</a>, <a href="/support/">support</a>, or the
+  <a href="/privacy/">privacy policy</a>.</p>
 
   <footer>
     <nav>
@@ -25,21 +54,5 @@
     <p>© 2026 Tibor Felföldy</p>
   </footer>
 </main>
-
-<script>
-  // A shared session lives at /shared/<id>, which is not a real file — Pages has
-  // no rewrite rules, so the request lands here whenever the app did not claim
-  // the link. Hand it to /shared/, which is a real page and answers 200, rather
-  // than showing session content under a 404. replace() keeps the dead URL out
-  // of history so Back returns where the visitor came from.
-  (function () {
-    var match = location.pathname.match(/^\/shared\/([^/?#]+)\/?$/);
-    if (match) {
-      location.replace("/shared/?id=" + encodeURIComponent(decodeURIComponent(match[1])));
-      return;
-    }
-    document.getElementById("missing").hidden = false;
-  })();
-</script>
 </body>
 </html>
