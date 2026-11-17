@@ -242,33 +242,6 @@
   display: block;
 }
 
-.assurances {
-  display: grid;
-  gap: 0.9rem;
-  margin: 2rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.assurances li {
-  position: relative;
-  margin: 0;
-  padding-left: 1.7rem;
-}
-
-.assurances li::before {
-  content: "";
-  position: absolute;
-  top: 0.45em;
-  left: 0.15rem;
-  width: 0.95rem;
-  height: 0.5rem;
-  border-bottom: 2px solid var(--accent);
-  border-left: 2px solid var(--accent);
-  transform: rotate(-45deg);
-  transform-origin: center;
-}
-
 /* On a phone the buttons span the row, so they are easy to hit, and the QR
    code sits above its text. */
 @media (max-width: 30rem) {
