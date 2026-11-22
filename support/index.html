@@ -38,7 +38,8 @@
   Not for PyPrompt itself — Python runs on your device. A connection is only
   needed when something reaches beyond it, such as a script that makes a request,
   an agent running on Apple's Private Cloud Compute or on Claude, sharing a
-  notebook, or saving a model with the <code>icloud</code> module.</p>
+  notebook, cloning a repository, or saving a model with the <code>icloud</code>
+  module.</p>
 
   <p><strong>How do I use Claude models?</strong><br>
   Pass one from the <code>claude</code> module to an agent, for example
@@ -60,6 +61,30 @@
   <p><strong>How do I run a script from Shortcuts?</strong><br>
   Add the <em>Run Script</em> action from PyPrompt to any shortcut and pass it
   the Python source to execute. It returns the script's output.</p>
+
+  <h2>Repository links</h2>
+
+  <p><strong>How do I share a project as a link?</strong><br>
+  Put a Git repository in a PyPrompt link. For a GitHub repository, use its
+  owner and name:<br>
+  <code>https://pyprompt.github.io/open?repo=owner/project</code><br>
+  For any other Git server, use the repository's full <code>https://</code>
+  address. Add <code>&amp;ref=</code> to open a branch, a tag or a commit, such
+  as <code>&amp;ref=v1.2</code>, <code>&amp;ref=main</code> or
+  <code>&amp;ref=3f2a9c1</code>; without it, the default branch opens.</p>
+
+  <p><strong>What happens when I open one?</strong><br>
+  PyPrompt first shows which repository the link points to and what its code can
+  do: read and change the project's files and use the network. Choose
+  <em>Run</em> to clone it and run its <code>__main__.py</code>, <em>View
+  Source</em> to clone it and look at the code without running it, or
+  <em>Cancel</em>. Nothing downloads until you choose. Opening the same link
+  again opens the project you already cloned and runs it.</p>
+
+  <p><strong>Do I need the app to open one?</strong><br>
+  Not on an iPhone or iPad. Opening the link in Safari offers the PyPrompt App
+  Clip, which shows the same choice and runs the project with nothing to install
+  from the App Store. On a Mac or Apple Vision Pro, install PyPrompt first.</p>
 
   <footer>
     <nav>
