@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- No script may rewrite this page's address. The App Clip is handed it and
+     reads repo and ref from it, so it must still be /open?repo=… when the clip
+     opens (Pages may add a slash, /open/?repo=…, which the app also accepts). -->
+<title>Shared project — PyPrompt</title>
+<meta name="description" content="Someone shared a Python project with you. Open it in PyPrompt to see its code and run it.">
+<meta name="robots" content="noindex">
+<!-- On iPhone and iPad, Safari opens the App Clip card over this page by itself.
+     If the visitor dismisses it, Safari shows the smaller banner instead. -->
+<meta name="apple-itunes-app" content="app-id=6780550972, app-clip-bundle-id=com.felfoldy.pyprompt.Clip, app-clip-display=card">
+<!-- Messages builds previews without running scripts, so these can't name the
+     repository. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="A Python project, shared with you">
+<meta property="og:description" content="Open it in PyPrompt to see its code and run it.">
+<meta property="og:image" content="https://pyprompt.github.io/assets/share-preview.png">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/shared/shared.css">
+<link rel="stylesheet" href="/open/open.css">
+<script>
+  // Runs before the page paints, so the right options are there from the start.
+  var PyPromptProject = (function () {
+    var root = document.documentElement;
+    root.classList.add("js");
+
+    // The same rules the app applies; anything else is a broken link, and no
+    // button or code on the page is built from it.
+    function validRepo(repo) {
+      // owner/project; a part that is only dots ("..") is a path, not a name.
+      if (/^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/.test(repo)) {
+        return !repo.split("/").some(function (part) { return /^\.+$/.test(part); });
+      }
+      try {
+        var url = new URL(repo);
+        return (url.protocol === "https:" || url.protocol === "http:") && url.host !== "";
+      } catch (e) {
+        return false;
+      }
+    }
+    function validRef(ref) {
+      return /^[A-Za-z0-9._\/-]{1,200}$/.test(ref) &&
+        ref.charAt(0) !== "-" && ref.indexOf("..") === -1;
+    }
+
+    var params = new URLSearchParams(location.search);
+    var repo = params.get("repo");
+    var ref = params.get("ref");
+    if (ref === "") ref = null;
+    if (!repo || !validRepo(repo) || (ref !== null && !validRef(ref))) {
+      root.classList.add("no-id");
+      return { repo: null };
+    }
+
+    // Slashes are allowed in a query, so they stay readable: repo=owner/project.
+    var encode = function (value) {
+      return encodeURIComponent(value).replace(/%2F/gi, "/");
+    };
+    var query = "repo=" + encode(repo) + (ref ? "&ref=" + encode(ref) : "");
+    var isShort = !/^https?:/i.test(repo);
+    var source = isShort
+      ? "https://github.com/" + repo + (ref ? "/tree/" + ref.split("/").map(encodeURIComponent).join("/") : "")
+      : repo;
+
+    var ua = navigator.userAgent;
+    // iPadOS reports itself as a Mac; a Mac has no multi-touch screen.
+    var isIOS = /iPhone|iPad|iPod/.test(ua) ||
+      (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var platform;
+    if (isIOS) {
+      // App Clips open from Safari and Safari-based sheets only.
+      var isSafari = /Version\/[\d.]+.*Safari\//.test(ua) &&
+        !/CriOS|FxiOS|EdgiOS|OPiOS|OPT\/|GSA\/|DuckDuckGo|YaBrowser/.test(ua);
+      platform = isSafari ? "ios-safari" : "ios-other";
+    } else if (/Macintosh/.test(ua)) {
+      platform = "mac";
+    } else {
+      platform = "other";
+    }
+    root.classList.add("p-" + platform);
+
+    return {
+      repo: repo,
+      ref: ref,
+      source: source,
+      platform: platform,
+      link: "https://pyprompt.github.io/open?" + query,
+      appLink: "pyprompt://open?" + query
+    };
+  })();
+</script>
+</head>
+<body>
+<main class="shared">
+  <a class="brand" href="/">
+    <img src="/assets/icon.svg" alt="" width="30" height="31">
+    <span>PyPrompt</span>
+  </a>
+
+  <div class="when-id">
+    <h1>A Python project, shared with you</h1>
+    <p class="project">
+      <code id="project-repo"></code><span id="project-ref-line" hidden> at
+      <code id="project-ref"></code></span>
+    </p>
+    <p class="tagline">Open it in PyPrompt to see its code and run it.
+      <a id="project-source" href="#">View the source</a>.</p>
+  </div>
+  <div class="when-no-id">
+    <h1>Shared projects</h1>
+    <p class="tagline">This link is missing its project. If someone sent it to
+    you, ask them to share it again.</p>
+  </div>
+
+  <!-- A picture of how a project looks, not the shared one: the page doesn't
+       fetch repositories. Built in CSS so it never falls behind the app. -->
+  <figure class="notebook">
+    <div class="nb" aria-hidden="true">
+      <div class="nb-card">
+        <ul class="pj-files">
+          <li class="pj-main"><span class="pj-icon py"></span>__main__.py<span class="nb-run"><svg viewBox="0 0 16 16" width="12" height="12"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg></span></li>
+          <li><span class="pj-icon py"></span>helpers.py</li>
+          <li><span class="pj-icon md"></span>README.md</li>
+        </ul>
+        <div class="nb-out"><span>Cloned. Running __main__.py…
+Hello from the project!</span></div>
+      </div>
+    </div>
+    <figcaption>How a project looks in PyPrompt.</figcaption>
+  </figure>
+
+  <section class="ways when-id" aria-label="Ways to open the project">
+
+    <!-- iPhone and iPad, in Safari -->
+    <div class="way" data-for="ios-safari">
+      <span class="way-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 19V5m0 0l-6 6m6-6l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <h2>Try it now, no install</h2>
+        <p>Use the PyPrompt banner at the top of this page. The project opens
+        in an App Clip, a small part of the app that needs no download from the
+        App Store.</p>
+      </div>
+    </div>
+
+    <!-- iPhone and iPad, in another browser or inside another app -->
+    <div class="way" data-for="ios-other">
+      <span class="way-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <h2>Try it without installing</h2>
+        <p>That works in Safari. Copy the link, then open it there.</p>
+        <p class="way-action">
+          <button class="button button-quiet" id="copy-link" type="button">Copy link</button>
+          <span id="copy-status" role="status"></span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Mac, with the app installed -->
+    <div class="way" data-for="mac">
+      <span class="way-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M7 5.5v13l11-6.5z" fill="currentColor"/></svg>
+      </span>
+      <div>
+        <h2>Open in PyPrompt</h2>
+        <p>If PyPrompt is on this Mac, it shows you the project first and asks
+        before anything runs.</p>
+        <p class="way-action">
+          <a class="button" id="open-app" href="#">Open in PyPrompt</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Mac and everything else: hand the link to a phone -->
+    <div class="way way-qr" data-for="mac other">
+      <div class="qr" id="qr" role="img" aria-label="QR code for this project's link"></div>
+      <div>
+        <h2>Try it on your iPhone or iPad</h2>
+        <p>Point the camera at this code. The project opens straight away, with
+        nothing to install.</p>
+      </div>
+    </div>
+
+    <div class="way">
+      <span class="way-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 4v11m0 0l-5-5m5 5l5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <h2>Get PyPrompt</h2>
+        <p>Python for iPhone, iPad, Mac and Apple Vision Pro, with courses,
+        practice and projects of your own. Install it, then open the link again.</p>
+        <p class="way-action">
+          <!-- The same link opens the Mac App Store on a Mac, so Macs get that badge. -->
+          <a class="store-badge store-badge-ios" href="https://apps.apple.com/app/id6780550972"><img
+            src="/assets/badge-app-store.svg" alt="Download on the App Store" width="144" height="48"></a>
+          <a class="store-badge store-badge-mac" href="https://apps.apple.com/app/id6780550972"><img
+            src="/assets/badge-mac-app-store.svg" alt="Download on the Mac App Store" width="187" height="48"></a>
+        </p>
+      </div>
+    </div>
+
+    <p class="installed installed-ios">Already have PyPrompt?
+      <a id="app-link" href="#">Open this project in the app</a>.</p>
+  </section>
+
+  <p class="project-note when-id">Nothing runs until you choose Run. A project's
+  code can read and change its own files and use the network.</p>
+
+  <section class="ways when-no-id" aria-label="Get PyPrompt">
+    <div class="way">
+      <span class="way-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 4v11m0 0l-5-5m5 5l5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <h2>Get PyPrompt</h2>
+        <p>Python for iPhone, iPad, Mac and Apple Vision Pro.</p>
+        <p class="way-action">
+          <a class="store-badge" href="https://apps.apple.com/app/id6780550972"><img
+            src="/assets/badge-app-store.svg" alt="Download on the App Store" width="144" height="48"></a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy Policy</a>
+    </nav>
+    <p>© 2026 Tibor Felföldy</p>
+  </footer>
+</main>
+
+<script>
+  (function () {
+    var project = PyPromptProject;
+    if (!project.repo) return;
+
+    // Text from the link goes in as text, never as markup.
+    document.getElementById("project-repo").textContent = project.repo;
+    if (project.ref) {
+      document.getElementById("project-ref").textContent = project.ref;
+      document.getElementById("project-ref-line").hidden = false;
+    }
+    document.getElementById("project-source").href = project.source;
+    document.getElementById("app-link").href = project.appLink;
+    document.getElementById("open-app").href = project.appLink;
+
+    if (project.platform === "ios-other") {
+      var status = document.getElementById("copy-status");
+      document.getElementById("copy-link").addEventListener("click", function () {
+        var done = function () { status.textContent = "Copied. Now open Safari and paste it."; };
+        var failed = function () { status.textContent = project.link; };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(project.link).then(done, failed);
+        } else {
+          failed();
+        }
+      });
+    }
+
+    // The QR code is drawn here in the browser; the link is not sent anywhere.
+    if (project.platform === "mac" || project.platform === "other") {
+      var script = document.createElement("script");
+      script.src = "/shared/qrcode.js";
+      script.onload = function () {
+        var qr = qrcode(0, "M");
+        qr.addData(project.link);
+        qr.make();
+        document.getElementById("qr").innerHTML =
+          qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+      };
+      script.onerror = function () {
+        document.querySelector(".way-qr").hidden = true;
+      };
+      document.head.appendChild(script);
+    }
+  })();
+</script>
+</body>
+</html>

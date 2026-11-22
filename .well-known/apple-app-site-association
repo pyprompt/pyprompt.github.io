@@ -12,6 +12,16 @@
             "/": "/shared/",
             "?": { "id": "*" },
             "comment": "Shared session, as /shared/?id=<id>"
+          },
+          {
+            "/": "/open",
+            "?": { "repo": "*" },
+            "comment": "Repository link, as /open?repo=<owner/project>[&ref=<ref>]"
+          },
+          {
+            "/": "/open/",
+            "?": { "repo": "*" },
+            "comment": "The same, after Pages adds its trailing slash"
           }
         ]
       }

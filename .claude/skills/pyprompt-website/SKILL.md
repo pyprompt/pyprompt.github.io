@@ -57,6 +57,24 @@ package, unchanged), with images in `assets/`.
   change, ask for a check on a phone without the app: the card appears, its
   button opens that notebook, Messages shows the preview image.
 
+## The repository-link page
+
+`open/index.html` answers repository links, `/open?repo=<owner/project>[&ref=<ref>]`
+(Pages may add the slash: `/open/?repo=…`). Unlike `/shared/` it is a real page,
+so no 404 redirect is involved, and its CSS reuses `shared/shared.css` plus
+`open/open.css`.
+
+- Never rewrite its address. The App Clip is handed the page's URL and reads
+  `repo` and `ref` from it.
+- `repo` and `ref` come from strangers: validate them the way the app does (the
+  rules are in the page's head script), show anything invalid as the
+  missing-project state, and insert them with `textContent` only.
+- The association file claims both `/open` and `/open/` with a `repo` query.
+- After a change, ask for a check on devices: the card on a phone without the
+  app, the app opening straight to its sheet with it, the Messages preview, and
+  the Mac's Open in PyPrompt button. A new association file can take a day to
+  reach devices through Apple's CDN.
+
 ## App Store links
 
 Link to the App Store with Apple's badge, never a home-made button: the files in

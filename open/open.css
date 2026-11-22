@@ -1,0 +1,67 @@
+/* The repository-link page. Loaded after /style.css and /shared/shared.css,
+   whose layout, platform rules and notebook picture it shares; only what is
+   particular to a project is here. */
+
+/* The project the link names. */
+.project {
+  margin: 0.5rem 0 0.6rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+}
+
+.project code {
+  color: var(--fg);
+  font-size: 1em;
+  font-weight: 600;
+}
+
+/* Without the script the page can't read the link, so there is nothing to show. */
+html:not(.js) .project,
+html:not(.js) #project-source {
+  display: none;
+}
+
+/* A Mac has its own Open in PyPrompt row. */
+.p-mac .installed-ios {
+  display: none;
+}
+
+.project-note {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* The project picture: a file list in the notebook picture's style. */
+.pj-files {
+  margin: 0;
+  padding: 0.55rem 0.5rem;
+  list-style: none;
+}
+
+.pj-files li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.4rem 0.45rem;
+  border-radius: 9px;
+  color: #c9cad1;
+}
+
+.pj-files .pj-main {
+  background: #2a2d36;
+  color: #ffffff;
+}
+
+.pj-icon {
+  width: 14px;
+  height: 17px;
+  border-radius: 3px;
+  background: #5d6068;
+}
+
+.pj-icon.py {
+  background: linear-gradient(135deg, #3d7ab8 50%, #f7c844 50%);
+}
