@@ -69,7 +69,14 @@ so no 404 redirect is involved, and its CSS reuses `shared/shared.css` plus
 - `repo` and `ref` come from strangers: validate them the way the app does (the
   rules are in the page's head script), show anything invalid as the
   missing-project state, and insert them with `textContent` only.
-- The association file claims both `/open` and `/open/` with a `repo` query.
+- The association file claims `/open` and `/open/` with any query or none; the
+  app validates `repo` and `ref` itself.
+- The site is served twice from this repo: `pyprompt.github.io` by GitHub Pages
+  and `pyprompt.app` by Cloudflare Pages (no build step). The association file
+  covers both. `_headers` gives it a JSON content type on Cloudflare; GitHub
+  Pages can't set headers, never publishes `_headers`, and serves the file as
+  `application/octet-stream`, which Apple's CDN accepts. Neither domain nor
+  Apple's CDN can be fetched from a remote session.
 - After a change, ask for a check on devices: the card on a phone without the
   app, the app opening straight to its sheet with it, the Messages preview, and
   the Mac's Open in PyPrompt button. A new association file can take a day to

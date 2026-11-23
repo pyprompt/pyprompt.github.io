@@ -1,0 +1,4 @@
+# Cloudflare Pages (pyprompt.app) reads this file; GitHub Pages never publishes
+# it, since Jekyll skips names starting with an underscore.
+/.well-known/apple-app-site-association
+  Content-Type: application/json

@@ -15,13 +15,11 @@
           },
           {
             "/": "/open",
-            "?": { "repo": "*" },
-            "comment": "Repository link, as /open?repo=<owner/project>[&ref=<ref>]"
+            "comment": "Open a GitHub repository"
           },
           {
             "/": "/open/",
-            "?": { "repo": "*" },
-            "comment": "The same, after Pages adds its trailing slash"
+            "comment": "Open a GitHub repository with trailing slash"
           }
         ]
       }
