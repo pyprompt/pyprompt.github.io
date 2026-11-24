@@ -69,6 +69,8 @@ so no 404 redirect is involved, and its CSS reuses `shared/shared.css` plus
 - `repo` and `ref` come from strangers: validate them the way the app does (the
   rules are in the page's head script), show anything invalid as the
   missing-project state, and insert them with `textContent` only.
+- The page's shareable link, used by Copy Link and the QR code, is on
+  `pyprompt.app`, whichever domain the page was opened on.
 - The association file claims `/open` and `/open/` with any query or none; the
   app validates `repo` and `ref` itself.
 - The site is served twice from this repo: `pyprompt.github.io` by GitHub Pages
